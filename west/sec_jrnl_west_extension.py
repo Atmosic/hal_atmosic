@@ -275,7 +275,7 @@ class SecJrnlCommand(WestCommand):
                 print("Please enter yes or no.")
                 return
         self.openocd.reset_target()
-        self.openocd.execute_cmd(f'atm_sec_jrnl_incr_ratchet_to {new_ratchet_val}')
+        self.openocd.execute_cmd([f"atm_sec_jrnl_incr_ratchet_to {new_ratchet_val}"])
 
     def do_run(self, args, unknown_args):
         self.board = args.board
