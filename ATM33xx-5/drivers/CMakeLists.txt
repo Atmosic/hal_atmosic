@@ -9,6 +9,7 @@ add_subdirectory(sec_cache)
 add_subdirectory(sec_dev_lockout)
 add_subdirectory(sec_reset)
 add_subdirectory(spi)
+add_subdirectory(dma)
 
 zephyr_include_directories(
     dma
