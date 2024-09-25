@@ -7,7 +7,7 @@
  *
  * Copyright (C) RivieraWaves 2009-2019
  *
- * Copyright (C) Atmosic 2020-2023
+ * Copyright (C) Atmosic 2020-2024
  *
  ****************************************************************************************
  */
@@ -98,11 +98,6 @@ void dma_copy(uint8_t channel, void* p_dst_addr, const void* p_src_addr, uint16_
  * @return Avoid power saving modes when true
  */
 bool dma_is_active(uint32_t *min_freq);
-
-/**
- * @brief initialize DMA subsystem
- */
-void dma_init(void);
 
 /// @} DMA
 

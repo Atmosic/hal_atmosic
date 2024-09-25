@@ -1,17 +1,3 @@
 # Copyright (c) 2023-2024 Atmosic
 #
 # SPDX-License-Identifier: Apache-2.0
-
-rsource "*/drivers/Kconfig"
-rsource "*/lib/Kconfig"
-
-rsource "tools/Kconfig"
-
-config ATM_ENABLE_NSC_EXAMPLE
-	bool "Enable NSC example function for extending SPE"
-	default n
-
-config ATM_PLF_DEBUG
-	bool "Debugging for low level platform drivers"
-	default y
-	depends on PRINTK
