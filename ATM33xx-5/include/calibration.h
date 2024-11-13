@@ -148,6 +148,11 @@ extern uint16_t misc_cal_len;
 #define CUST_CAL__CUST_NO_32KHZ_XTAL_ON_BOARD__READ(src) \
 		(((uint8_t)(src) & 0x02U) >> 0)
 
+#define CUST_CAL__CUST_ENABLE_TCXO__SHIFT	2
+#define CUST_CAL__CUST_ENABLE_TCXO__MASK	0x04U
+#define CUST_CAL__CUST_ENABLE_TCXO__READ(src) \
+		(((uint8_t)(src) & 0x04U) >> 0)
+
 /// Customer design-specific calibration for various registers
 struct cust_cfg_s {
     uint16_t version;
