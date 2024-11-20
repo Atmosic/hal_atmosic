@@ -1,3 +1,9 @@
 # Copyright (c) 2023-2024 Atmosic
 #
 # SPDX-License-Identifier: Apache-2.0
+
+config UU_TEST_ATM_HAL
+	string "Add files in modules/hal/atmosic for code coverage"
+	depends on AUTO_TEST && COVERAGE && !NATIVE_BUILD
+	help
+	  Target "app" is automatically added coverage in compile options

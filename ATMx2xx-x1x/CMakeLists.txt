@@ -39,6 +39,3 @@ zephyr_compile_definitions(
 if (CONFIG_ATMx2_ROM)
     add_subdirectory(drivers)
 endif ()
-
-zephyr_linker_sources(NOINIT noinit.ld)
-zephyr_linker_sources(RAMFUNC_SECTION ramfunc-section.ld)
