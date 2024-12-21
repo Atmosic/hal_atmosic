@@ -57,6 +57,9 @@ enum atm_nvds_tag {
     /// Customer design-specific calibration for various registers
     ATM_TAG_CUST_CFG = 0xbd,
 
+    /// Manufacturing lock for factory data
+    ATM_TAG_LOCK_FACTORY_DATA = 0xe0,
+
     /*
      * NOTE: Place new entires above this comment
      */

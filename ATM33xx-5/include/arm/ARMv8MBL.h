@@ -771,11 +771,11 @@ typedef struct
 
 /* CMSDK_GPIO INTCLEAR Register Definitions */
 #define CMSDK_GPIO_INTSTATUS_Pos       0                                                     /* CMSDK_GPIO INTSTATUS: INTSTATUS Position */
-#define CMSDK_GPIO_INTCLEAR_Msk       (0xFFUL /*<< CMSDK_GPIO_INTSTATUS_Pos*/)               /* CMSDK_GPIO INTSTATUS: INTSTATUS Mask */
+#define CMSDK_GPIO_INTCLEAR_Msk       (0xFFFFUL /*<< CMSDK_GPIO_INTSTATUS_Pos*/)               /* CMSDK_GPIO INTSTATUS: INTSTATUS Mask */
 
 /* CMSDK_GPIO INTCLEAR Register Definitions */
 #define CMSDK_GPIO_INTCLEAR_Pos        0                                                     /* CMSDK_GPIO INTCLEAR: INTCLEAR Position */
-#define CMSDK_GPIO_INTCLEAR_Msk       (0xFFUL /*<< CMSDK_GPIO_INTCLEAR_Pos*/)                /* CMSDK_GPIO INTCLEAR: INTCLEAR Mask */
+#define CMSDK_GPIO_INTCLEAR_Msk       (0xFFFFUL /*<< CMSDK_GPIO_INTCLEAR_Pos*/)                /* CMSDK_GPIO INTCLEAR: INTCLEAR Mask */
 
 /* CMSDK_GPIO MASKLOWBYTE Register Definitions */
 #define CMSDK_GPIO_MASKLOWBYTE_Pos     0                                                     /* CMSDK_GPIO MASKLOWBYTE: MASKLOWBYTE Position */
