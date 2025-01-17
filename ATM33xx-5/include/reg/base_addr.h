@@ -5,7 +5,7 @@
  *
  * @brief Base Address definitions
  *
- * Copyright (C) Atmosic 2022-2024
+ * Copyright (C) Atmosic 2022-2025
  *
  *****************************************************************************
  */
