@@ -5,7 +5,7 @@
  *
  * @brief File to include architecture dependent macros/function definitions
  *
- * Copyright (C) Atmosic 2020-2023
+ * Copyright (C) Atmosic 2020-2025
  *
  *******************************************************************************
  */
@@ -20,6 +20,14 @@
 
 #ifdef __cplusplus
 extern "C" {
+#endif
+
+#ifdef CONFIG_LOG
+#define c_print_str printf
+#define c_print_char(c) printf("%c", c)
+#elif defined(CONFIG_PRINTK)
+#define c_print_str printk
+#define c_print_char(c) printk("%c", c)
 #endif
 
 /**
@@ -61,7 +69,7 @@ void CommonInitSystem(void);
  */
 void CommonInitBoot(void);
 
-#ifdef AUTO_TEST
+#if defined(AUTO_TEST) || defined(CONFIG_AUTO_TEST)
 void secure_gcov_dump(void);
 #ifndef SECURE_PROC_ENV
 __NO_RETURN void gcov_dump(void);
