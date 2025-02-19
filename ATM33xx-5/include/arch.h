@@ -8,7 +8,7 @@
  * appropriate architecture directory.
  *
  * Copyright (C) RivieraWaves 2009-2015
- * Copyright (C) Atmosic 2020-2024
+ * Copyright (C) Atmosic 2020-2025
  *
  ****************************************************************************************
  */
@@ -329,6 +329,9 @@ void rw_main(void);
  * @param line Line number in the file where the assertion is located.
  ****************************************************************************************
  */
+#if defined(CFG_PLF_DEBUG) && (CFG_PLF_DEBUG == 0xc02cea1)
+__attribute__((weak))
+#endif
 void assert_err(const char *condition, const char * file, int line);
 
 /**
@@ -342,6 +345,9 @@ void assert_err(const char *condition, const char * file, int line);
  * @param line Line number in the file where the assertion is located.
  ****************************************************************************************
  */
+#if defined(CFG_PLF_DEBUG) && (CFG_PLF_DEBUG == 0xc02cea1)
+__attribute__((weak))
+#endif
 void assert_param(int param0, int param1, const char * file, int line);
 
 /**
@@ -354,6 +360,9 @@ void assert_param(int param0, int param1, const char * file, int line);
  * @param line Line number in the file where the assertion is located.
  ****************************************************************************************
  */
+#if defined(CFG_PLF_DEBUG) && (CFG_PLF_DEBUG == 0xc02cea1)
+__attribute__((weak))
+#endif
 void assert_warn(int param0, int param1, const char * file, int line);
 
 
@@ -369,6 +378,9 @@ void assert_warn(int param0, int param1, const char * file, int line);
  * @param[in] hdr_length   Length of HCI header data
  ****************************************************************************************
  */
+#if defined(CFG_PLF_DEBUG) && (CFG_PLF_DEBUG == 0xc02cea1)
+__attribute__((weak))
+#endif
 void dump_hci(uint8_t type, uint8_t direction, uint8_t* p_data, uint16_t length, uint8_t* p_hdr_data, uint16_t hdr_length);
 
 /**
@@ -382,14 +394,10 @@ void dump_hci(uint8_t type, uint8_t direction, uint8_t* p_data, uint16_t length,
  * @param[in] length       Length of HCI data
  ****************************************************************************************
  */
-void dump_upk_hci(uint8_t evttype, uint8_t direction, uint16_t code, uint8_t* p_data, uint16_t length);
-
-#ifdef RTT_DBG
-__PRINTF(1, 2) int debug_trace_rtt(const char *format, ...);
-#define DEBUG_TRACE_SEL debug_trace_rtt
-#else
-#define DEBUG_TRACE_SEL debug_trace
+#if defined(CFG_PLF_DEBUG) && (CFG_PLF_DEBUG == 0xc02cea1)
+__attribute__((weak))
 #endif
+void dump_upk_hci(uint8_t evttype, uint8_t direction, uint16_t code, uint8_t* p_data, uint16_t length);
 #endif //PLF_DEBUG
 
 /**
@@ -398,6 +406,9 @@ __PRINTF(1, 2) int debug_trace_rtt(const char *format, ...);
  * @param     ...    Arguments for formatter
  * @returns Number of characters logged
  */
+#if defined(CFG_PLF_DEBUG) && (CFG_PLF_DEBUG == 0xc02cea1)
+__attribute__((weak))
+#endif
 __PRINTF(1, 2) int debug_trace(const char *format, ...);
 
 #if (defined(CFG_PROFILING))
@@ -501,6 +512,68 @@ void mem_grant_restore_context(void);
  ****************************************************************************************
  */
 #if PLF_DEBUG
+#if defined(CFG_PLF_DEBUG) && (CFG_PLF_DEBUG == 0xc02cea1)
+/// Assertions showing a critical error that could require a full system reset
+#define ASSERT_ERR(cond)                              \
+    do {                                              \
+        if (assert_err && !(cond)) {                  \
+            assert_err(#cond, __MODULE__, __LINE__);  \
+        }                                             \
+    } while(0)
+
+/// Assertions showing a critical error that could require a full system reset
+#define ASSERT_INFO(cond, param0, param1)             \
+    do {                                              \
+        if (assert_param && !(cond)) {                \
+            assert_param((int)param0, (int)param1, __MODULE__, __LINE__);  \
+        }                                             \
+    } while(0)
+
+/// Assertions showing a non-critical problem that has to be fixed by the SW
+#define ASSERT_WARN(cond, param0, param1)             \
+    do {                                              \
+        if (assert_warn && !(cond)) {                 \
+            assert_warn((int)param0, (int)param1, __MODULE__, __LINE__); \
+        }                                             \
+    } while(0)
+
+/// DUMP HCI packet
+#define DUMP_HCI(type, direction, data, length)\
+    do {\
+	if (dump_hci) {\
+	    dump_hci(type, direction, (uint8_t*)data, length, NULL, 0);\
+	}\
+    } while(0)
+
+/// DUMP HCI packet
+#define DUMP_HCI_2(type, direction, hdr_data, hdr_length, data, length)\
+    do {\
+	if (dump_hci) {\
+	    dump_hci(type, direction, (uint8_t*)data, length, (uint8_t*)hdr_data, hdr_length);\
+	}\
+    } while(0)
+
+/// DUMP HCI packet in unpacked format
+#define DUMP_UPK_HCI(evttype, direction, code, data, length)\
+    do {\
+	if (dump_upk_hci) {\
+	    dump_upk_hci(evttype, direction, code, (uint8_t*)data, length);\
+	}\
+    } while(0)
+
+#define DEBUG_TRACE(fmt, ...)\
+    do {\
+	if (debug_trace) {\
+	    debug_trace(fmt, ##__VA_ARGS__);\
+	}\
+    } while(0)
+#define DEBUG_TRACE_COND(cond, fmt, ...)\
+    do {\
+	if (debug_trace && cond) {\
+	    debug_trace(fmt, ##__VA_ARGS__);\
+	}\
+    } while(0)
+#else // CFG_PLF_DEBUG
 /// Assertions showing a critical error that could require a full system reset
 #define ASSERT_ERR(cond)                              \
     do {                                              \
@@ -537,15 +610,16 @@ void mem_grant_restore_context(void);
 #define DUMP_UPK_HCI(evttype, direction, code, data, length)\
     dump_upk_hci(evttype, direction, code, (uint8_t*)data, length)
 
-#define DEBUG_TRACE(fmt, ...) \
-    DEBUG_TRACE_SEL(fmt, ##__VA_ARGS__)
-#define DEBUG_TRACE_COND(cond, fmt, ...) do { \
-    if (cond) { \
-	DEBUG_TRACE_SEL(fmt, ##__VA_ARGS__); \
-    } \
-} while(0)
-
-#else
+#define DEBUG_TRACE(fmt, ...)\
+    debug_trace(fmt, ##__VA_ARGS__)
+#define DEBUG_TRACE_COND(cond, fmt, ...)\
+    do {\
+	if (cond) {\
+	    debug_trace(fmt, ##__VA_ARGS__);\
+	}\
+    } while(0)
+#endif // CFG_PLF_DEBUG
+#else // PLF_DEBUG
 /// Assertions showing a critical error that could require a full system reset
 #define ASSERT_ERR(cond)
 
