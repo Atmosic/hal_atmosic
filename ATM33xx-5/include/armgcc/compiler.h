@@ -83,10 +83,10 @@ extern "C" {
 /// Put a variable in a memory maintained during deep sleep
 #define __LOWPOWER_SAVED
 
-#ifndef STRINGIFY
-#define STRINGIFY(x) #x
+#ifndef _TOSTRING
+#define _TOSTRING(x) #x
 #endif
-#define TOSTRING(x) STRINGIFY(x)
+#define TOSTRING(x) _TOSTRING(x)
 #define AT __MODULE__ ":" TOSTRING(__LINE__)
 
 /// Do not initialize variable at startup
